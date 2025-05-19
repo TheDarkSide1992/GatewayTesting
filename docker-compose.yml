@@ -1,0 +1,71 @@
+﻿services:
+  database:
+    image: postgres
+    command: -c 'max_connections=100'
+    ports:
+      - 5001:5432
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: kong
+      POSTGRES_USER: kong
+      POSTGRES_DB: kong
+    networks:
+      - gatewaytesting
+
+  kong-migration:
+    image: kong/kong-gateway:latest-ubuntu
+    command: "kong migrations bootstrap"
+    networks:
+      - gatewaytesting
+    restart: on-failure
+    environment:
+      - KONG_PG_HOST=database
+      - KONG_PG_PASSWORD=kong
+      - KONG_PG_USER=kong
+    links:
+      - database
+    depends_on:
+      - database
+
+
+  kongservice:
+    image: kong/kong-gateway:latest-ubuntu
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=database
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=kong
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+      - KONG_ADMIN_GUI_URL=http://localhost:8002
+    depends_on:
+      kong-migration:
+        condition: service_completed_successfully
+    ports:
+      - 8001:8001
+      - 8002:8002
+      - 8000:8000
+    networks:
+      - gatewaytesting
+
+  servicea:
+    build:
+      context: .
+      dockerfile: Apps/ServiceA/Dockerfile
+    networks:
+    - gatewaytesting
+
+  serviceb:
+    build:
+      context: .
+      dockerfile: Apps/ServiceB/Dockerfile
+    networks:
+      - gatewaytesting
+
+volumes:
+  pgdata:        
+        
+networks:
+  gatewaytesting:
+    driver: bridge

@@ -7,19 +7,19 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 #Copy Files From porjects
-COPY ["src/api/api.csproj", "src/api/"]
+COPY ["Apps/ServiceB/src/api/api.csproj", "Apps/ServiceB/src/api/"]
 
 #Copy Files to Docker
-COPY src/api/ src/api/
+COPY Apps/ServiceB/src/api/ Apps/ServiceB/src/api/
 
-WORKDIR "src/Api"
-RUN dotnet build "Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "Apps/ServiceB/src/api"
+RUN dotnet build "api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Api.dll"]
+ENTRYPOINT ["dotnet", "api.dll"]
