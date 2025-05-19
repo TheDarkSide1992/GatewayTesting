@@ -9,6 +9,6 @@ public class ControllerA : ControllerBase
     [HttpGet]
     public async Task<IActionResult> getFromA()
     {
-        return result.Any() ? Ok("ControllerA") : NotFound();
+        return Ok("ControllerA");
     }
 }

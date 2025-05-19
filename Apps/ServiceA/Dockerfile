@@ -7,12 +7,12 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 #Copy Files From porjects
-COPY ["src/api/api.csproj", "src/api/"]
+COPY ["Apps/ServiceA/src/api/api.csproj", "Apps/ServiceA/src/api/"]
 
 #Copy Files to Docker
-COPY src/api/ src/api/
+COPY Apps/ServiceA/src/api/ Apps/ServiceA/src/api/
 
-WORKDIR "src/api"
+WORKDIR "Apps/ServiceA/src/api"
 RUN dotnet build "api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
