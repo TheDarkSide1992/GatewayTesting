@@ -1,0 +1,73 @@
+﻿_format_version: "3.0"
+
+services:
+  - name: ServiceA
+    url: http://servicea:8080/ControllerA
+    retries: 5
+    write_timeout: 60000
+    read_timeout: 60000
+    routes:
+      - name: GetA
+        paths:
+          - /GetA
+        methods:
+          - GET
+        strip_path: true
+        preserve_host: false
+        plugins:
+          - name: rate-limiting
+            config:
+              minute: 5
+              policy: local
+              limit_by: ip
+          - name: "key-auth"
+            config:
+              key_names:
+                - apikey
+              run_on_preflight: true
+              hide_credentials: true
+              key_in_body: false
+              key_in_query: false
+              key_in_header: true
+
+  - name: ServiceB
+    url: http://serviceb:8080/ControllerB 
+    retries: 5
+    write_timeout: 60000
+    read_timeout: 60000
+    routes:
+      - name: GetB
+        paths:
+          - /GetB
+        methods:
+          - GET
+        strip_path: true
+        preserve_host: false
+        plugins:
+          - name: rate-limiting
+            config:
+              minute: 5
+              policy: local
+              limit_by: ip
+          - name: "key-auth"
+            config:
+              key_names:
+                - apikey
+              run_on_preflight: true
+              hide_credentials: true
+              key_in_body: false
+              key_in_query: false
+              key_in_header: true
+
+consumers:
+  - username: user
+    custom_id: user
+    keyauth_credentials:
+      - key: user
+
+
+
+  - username: admin
+    custom_id: admin
+    keyauth_credentials:
+      - key: admin
