@@ -26,8 +26,23 @@
           "Host": "serviceb",
           "Port": 8080
         }
+      ],
+      "AuthenticationOptions" : {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "UpstreamHttpMethod": ["Post"],
+      "UpstreamPathTemplate": "/key",
+      "DownstreamPathTemplate": "/Jwt",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "jwtcreator",
+          "Port": 8080
+        }
       ]
     }
-    
   ]
 }
