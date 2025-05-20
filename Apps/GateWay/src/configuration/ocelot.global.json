@@ -1,0 +1,33 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:8080"
+  },
+  "Routes":
+  [
+    {
+      "UpstreamHttpMethod": ["Get"],
+      "UpstreamPathTemplate": "/getA",
+      "DownstreamPathTemplate": "/ControllerA",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "servicea",
+          "Port": 8080
+        }
+      ]
+    },
+    {
+      "UpstreamHttpMethod": ["Get"],
+      "UpstreamPathTemplate": "/getB",
+      "DownstreamPathTemplate": "/ControllerB",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "serviceb",
+          "Port": 8080
+        }
+      ]
+    }
+    
+  ]
+}

@@ -48,6 +48,15 @@
       - 8000:8000
     networks:
       - gatewaytesting
+        
+  gateway:
+    build:
+      context: .
+      dockerfile: Apps/GateWay/Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - gatewaytesting
 
   servicea:
     build:
