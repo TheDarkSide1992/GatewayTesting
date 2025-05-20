@@ -74,6 +74,14 @@
     networks:
       - gatewaytesting
 
+  jwtcreator:
+    build:
+      context: .
+      dockerfile: Apps/AuthGenerator/Dockerfile
+    ports:
+      - 8081:8080
+    networks:
+      - gatewaytesting
 volumes:
   pgdata:        
         

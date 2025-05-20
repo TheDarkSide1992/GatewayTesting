@@ -1,0 +1,6 @@
+@jwtApi_HostAddress = http://localhost:5272
+
+GET {{jwtApi_HostAddress}}/
+Accept: application/json
+
+###
