@@ -29,7 +29,7 @@
       ],
       "AuthenticationOptions" : {
         "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        "AllowedScopes": ["authenticated"]
       }
     },
     {
