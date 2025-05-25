@@ -58,6 +58,10 @@ services:
               key_in_body: false
               key_in_query: false
               key_in_header: true
+          - name: acl
+            config:
+              deny:
+                - group2
 
 consumers:
   - username: user
@@ -71,3 +75,10 @@ consumers:
     custom_id: admin
     keyauth_credentials:
       - key: admin
+        
+  
+acls:
+  - consumer: admin
+    group: group1
+  - consumer: user
+    group: group2
